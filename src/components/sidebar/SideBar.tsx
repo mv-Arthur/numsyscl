@@ -1,0 +1,68 @@
+import * as React from "react";
+import Box from "@mui/material/Box";
+import Drawer from "@mui/material/Drawer";
+import Button from "@mui/material/Button";
+import List from "@mui/material/List";
+import Divider from "@mui/material/Divider";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemText from "@mui/material/ListItemText";
+
+type Anchor = "top" | "left" | "bottom" | "right";
+
+export default function TemporaryDrawer(props: { handleOpen: () => void }) {
+	const [state, setState] = React.useState({
+		top: false,
+		left: false,
+		bottom: false,
+		right: false,
+	});
+
+	const toggleDrawer = (anchor: Anchor, open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
+		if (event.type === "keydown" && ((event as React.KeyboardEvent).key === "Tab" || (event as React.KeyboardEvent).key === "Shift")) {
+			return;
+		}
+
+		setState({ ...state, [anchor]: open });
+	};
+
+	const list = (anchor: Anchor) => (
+		<Box
+			sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 250 }}
+			role="presentation"
+			onClick={toggleDrawer(anchor, false)}
+			onKeyDown={toggleDrawer(anchor, false)}
+		>
+			<List>
+				{["О разработчике"].map((text) => (
+					<ListItem key={text} disablePadding>
+						<ListItemButton>
+							<a href="https://mv-arthur.github.io/portfolio/" style={{ color: "rgba(0, 0, 0, 0.87)" }}>
+								<ListItemText primary={text} />
+							</a>
+						</ListItemButton>
+					</ListItem>
+				))}
+			</List>
+			<Divider />
+			<List>
+				{["О программе"].map((text) => (
+					<ListItem onClick={props.handleOpen} key={text} disablePadding>
+						<ListItemButton>
+							<ListItemText primary={text} />
+						</ListItemButton>
+					</ListItem>
+				))}
+			</List>
+		</Box>
+	);
+
+	return (
+		<div>
+			<Button onClick={toggleDrawer("bottom", true)}>{"меню"}</Button>
+			<Drawer anchor={"bottom"} open={state["bottom"]} onClose={toggleDrawer("bottom", false)}>
+				{list("bottom")}
+			</Drawer>
+		</div>
+	);
+}

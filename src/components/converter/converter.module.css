@@ -1,0 +1,30 @@
+.formWrapper {
+	display: flex;
+	gap: 10px;
+	align-items: center;
+}
+
+.header {
+	text-align: start;
+	font-size: 45px;
+}
+
+.result {
+	display: flex;
+	gap: 40px;
+}
+
+.resultItem {
+	position: relative;
+}
+
+.target {
+	font-size: 20px;
+}
+
+.systemIndex {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	transform: translate(18px, 4px);
+}
